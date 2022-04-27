@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RealTimeProjectWithSignalR.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,13 @@ namespace RealTimeProjectWithSignalR
        
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddDefaultPolicy(policy =>
+            {
+                policy.AllowAnyMethod()
+                      .AllowAnyHeader()
+                      .AllowCredentials()
+                      .SetIsOriginAllowed(origin => true);
+            }));
             services.AddSignalR();
         }
 
@@ -26,6 +34,7 @@ namespace RealTimeProjectWithSignalR
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -33,6 +42,14 @@ namespace RealTimeProjectWithSignalR
                 endpoints.MapGet("/", async context =>
                 {
                     await context.Response.WriteAsync("Hello World!");
+
+                });
+
+
+            //https://localhost:5001/chatHub
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapHub<ChatHub>("/chatHub");
                 });
             });
         }
