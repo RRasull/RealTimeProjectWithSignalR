@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using System;
 using System.Threading.Tasks;
 
 namespace RealTimeProjectWithSignalR.Hubs
@@ -9,5 +10,18 @@ namespace RealTimeProjectWithSignalR.Hubs
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
+
+        public override async Task OnConnectedAsync()
+        {
+            await Clients.All.SendAsync("clientJoined",Context.ConnectionId);
+        }
+
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            await Clients.All.SendAsync("clientLeaved", Context.ConnectionId);
+
+        }
+
+
     }
 }

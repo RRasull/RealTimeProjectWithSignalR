@@ -35,6 +35,7 @@ namespace RealTimeProjectWithSignalR
             }
 
             app.UseCors();
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
