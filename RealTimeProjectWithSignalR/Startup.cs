@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RealTimeProjectWithSignalR.Business;
 using RealTimeProjectWithSignalR.Hubs;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,11 @@ namespace RealTimeProjectWithSignalR
                       .AllowCredentials()
                       .SetIsOriginAllowed(origin => true);
             }));
+
+            services.AddTransient<MyBusiness>();
+
             services.AddSignalR();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +56,7 @@ namespace RealTimeProjectWithSignalR
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapHub<ChatHub>("/chatHub");
+                    endpoints.MapDefaultControllerRoute();
                 });
             });
         }
