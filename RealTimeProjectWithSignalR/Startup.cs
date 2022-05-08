@@ -56,6 +56,8 @@ namespace RealTimeProjectWithSignalR
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapHub<ChatHub>("/chatHub");
+                    endpoints.MapHub<MessageHub>("/messagehub");
+
                     endpoints.MapDefaultControllerRoute();
                 });
             });

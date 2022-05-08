@@ -10,6 +10,6 @@ namespace RealTimeProjectWithSignalR.Interfaces
         Task ClientJoined(string connectionId);
         Task ClientLeaved(string connectionId);
         Task ReceiveMessage(string user,string message);
-
+        Task GetConnectionId(string connectionId);
     }
 }
